@@ -19,9 +19,11 @@ const main = async (dbAddress, creatorAddress, storageDir) => {
 
   // Open the shared database
   const db = await orbitdb.open(dbAddress)
-  console.log('=== REPLICATOR ===')
-  console.log('Connected to database:', db.address.toString())
-  console.log('Initial data:', await db.all())
+  console.log('=== REPLICATOR READY ===')
+  console.log('Database Address:', db.address.toString())
+  console.log('Network Addresses:', libp2p.getMultiaddrs().map(ma => ma.toString()))
+  console.log('Current data:', await db.all())
+
 
   // Listen for updates
   db.events.on('update', (entry) => {
