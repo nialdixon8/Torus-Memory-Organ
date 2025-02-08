@@ -6,7 +6,7 @@ import { Libp2pOptions } from './config/libp2p.js'
 import { multiaddr } from '@multiformats/multiaddr'
 import { CLI } from './CLI.js'
 
-const replicateDatabase = async (dbAddress, creatorAddress) => {
+const joinDatabase = async (dbAddress, creatorAddress) => {
   const blockstore = new LevelBlockstore('./replicator-ipfs-blocks')
   const libp2p = await createLibp2p(Libp2pOptions)
   const ipfs = await createHelia({ libp2p, blockstore })
@@ -22,17 +22,14 @@ const replicateDatabase = async (dbAddress, creatorAddress) => {
   // Open existing database
   const db = await orbitdb.open(dbAddress)
 
-  console.log('=== REPLICATOR READY ===')
-  console.log('Database Address:', db.address.toString())
-  console.log('Network Addresses:', libp2p.getMultiaddrs().map(ma => ma.toString()))
-  console.log('Current data:', await db.all())
+  console.log('=== NODE READY ===')
 
   // Listen for updates
   db.events.on('update', (entry) => {
     console.log('\nNew update received:', entry.payload.value)
   })
 
-  const cli = new CLI(db);
+  const cli = new CLI(db, libp2p);
   cli.start();
 }
 
@@ -43,4 +40,4 @@ if (!dbAddress || !creatorAddress) {
   process.exit(1)
 }
 
-replicateDatabase(dbAddress, creatorAddress).catch(console.error)
+joinDatabase(dbAddress, creatorAddress).catch(console.error)

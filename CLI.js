@@ -2,8 +2,9 @@ import readline from 'readline'
 
 // Define a CLI class to handle terminal commands
 export class CLI {
-  constructor(db) {
+  constructor(db, libp2p) {
     this.db = db;
+    this.libp2p = libp2p;
     // Create a readline interface for terminal input
     this.rl = readline.createInterface({
       input: process.stdin,
@@ -34,7 +35,11 @@ export class CLI {
       } else if (command === 'fetch') {
         const data = await this.db.all()
         console.log('Data:\n', data)
-      } else if (command === 'exit') {
+      } else if (command === 'info') {
+        console.log('Database Address:', this.db.address.toString())
+        console.log('Network Addresses:', this.libp2p.getMultiaddrs().map(ma => ma.toString()))
+      }
+       else if (command === 'exit') {
         console.log('Exiting...');
         process.exit(0);
       } else {

@@ -23,9 +23,7 @@ const createDatabase = async () => {
     AccessController: OrbitDBAccessController({ write: [orbitdb.identity.id] })
   })
 
-  console.log('=== CREATOR INFO ===')
-  console.log('Database Address:', db.address.toString())
-  console.log('Network Addresses:', libp2p.getMultiaddrs().map(ma => ma.toString()))
+  console.log('=== CREATOR READY ===')
 
   // Add initial data
   await db.put({ _id: 'first', content: 'Genesis entry' })
@@ -35,7 +33,11 @@ const createDatabase = async () => {
     console.log('\nNew update from peer:', entry.payload.value)
   })
 
-  const cli = new CLI(db);
+  db.events.on('join', (peerID, heads) => {
+    console.log('Node Joined: ', peerID)
+  })
+
+  const cli = new CLI(db, libp2p);
   cli.start();
 }
 
