@@ -24,6 +24,7 @@ const main = async (dbAddress, creatorAddress, storageDir) => {
   console.log('Network Addresses:', libp2p.getMultiaddrs().map(ma => ma.toString()))
   console.log('Current data:', await db.all())
 
+
   // Listen for updates
   db.events.on('update', (entry) => {
     console.log('\nNew update:', entry.payload.value)
