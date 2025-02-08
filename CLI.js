@@ -9,7 +9,7 @@ export class CLI {
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
-      prompt: '> '
+      prompt: '> '  
     });
   }
 
@@ -42,7 +42,11 @@ export class CLI {
        else if (command === 'exit') {
         console.log('Exiting...');
         process.exit(0);
-      } else {
+      } 
+      else if (command === 'con') {
+        console.log('node node.js', this.db.address.toString(), this.libp2p.getMultiaddrs().map(ma => ma.toString())[0])
+      }
+      else {
         console.log(`Unknown command: ${command}`);
       }
       this.rl.prompt();
