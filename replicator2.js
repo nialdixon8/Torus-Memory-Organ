@@ -4,6 +4,7 @@ import { createOrbitDB } from '@orbitdb/core'
 import { LevelBlockstore } from 'blockstore-level'
 import { Libp2pOptions } from './config/libp2p.js'
 import { multiaddr } from '@multiformats/multiaddr'
+import { CLI } from './CLI.js'
 
 const replicateDatabase = async (dbAddress, creatorAddress) => {
   const blockstore = new LevelBlockstore('./replicator2-ipfs-blocks')
@@ -29,13 +30,8 @@ const replicateDatabase = async (dbAddress, creatorAddress) => {
     console.log('\nNew update received:', entry.payload.value)
   })
 
-  // Simulate adding data later
-  setTimeout(async () => {
-    await db.put({ _id: 'replica', content: 'From replicator' })
-  }, 5000)
-
-  // Keep alive
-  setInterval(() => {}, 1000)
+  const cli = new CLI(db);
+  cli.start();
 }
 
 // Usage: node replicator.js <db-address> <creator-multiaddr>

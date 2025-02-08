@@ -1,8 +1,9 @@
 import { createLibp2p } from 'libp2p'
 import { createHelia } from 'helia'
-import { createOrbitDB, IPFSAccessController } from '@orbitdb/core'
+import { createOrbitDB, OrbitDBAccessController } from '@orbitdb/core'
 import { LevelBlockstore } from 'blockstore-level'
 import { Libp2pOptions } from './config/libp2p.js'
+import { CLI } from './CLI.js'
 
 const createDatabase = async () => {
   // Persistent storage setup
@@ -19,7 +20,7 @@ const createDatabase = async () => {
   // Create database with open access (for demo purposes)
   const db = await orbitdb.open('shared-database', {
     type: 'documents',
-    AccessController: IPFSAccessController({ write: ['*'] })
+    AccessController: OrbitDBAccessController({ write: [orbitdb.identity.id] })
   })
 
   console.log('=== CREATOR INFO ===')
@@ -34,8 +35,8 @@ const createDatabase = async () => {
     console.log('\nNew update from peer:', entry.payload.value)
   })
 
-  // Keep alive for demo
-  setInterval(() => {}, 1000)
+  const cli = new CLI(db);
+  cli.start();
 }
 
 createDatabase().catch(console.error)
