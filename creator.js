@@ -3,39 +3,37 @@ import { createHelia } from 'helia'
 import { createOrbitDB, IPFSAccessController } from '@orbitdb/core'
 import { LevelBlockstore } from 'blockstore-level'
 import { Libp2pOptions } from './config/libp2p.js'
+import { v4 as uuidv4 } from 'uuid' // For generating unique IDs
 
-const createDatabase = async () => {
-  // Persistent storage setup
+const main = async () => {
+  // Persistent storage for creator
   const blockstore = new LevelBlockstore('./creator-ipfs-blocks')
   const libp2p = await createLibp2p(Libp2pOptions)
   const ipfs = await createHelia({ libp2p, blockstore })
 
-  // OrbitDB instance
-  const orbitdb = await createOrbitDB({ 
-    ipfs,
-    directory: './creator-orbitdb-storage'
-  })
+  // Initialize OrbitDB
+  const orbitdb = await createOrbitDB({ ipfs, directory: './creator-orbitdb' })
 
-  // Create database with open access (for demo purposes)
-  const db = await orbitdb.open('shared-database', {
+  // Generate a unique database name
+  const dbName = `shared-db-${uuidv4()}`
+
+  // Create a database with open access
+  const db = await orbitdb.open(dbName, {
     type: 'documents',
-    AccessController: IPFSAccessController({ write: ['*'] })
+    AccessController: IPFSAccessController({ write: ['*'] }) // Allow anyone to write
   })
 
-  console.log('=== CREATOR INFO ===')
+  console.log('=== CREATOR ===')
+  console.log('Database Name:', dbName)
   console.log('Database Address:', db.address.toString())
-  console.log('Network Addresses:', libp2p.getMultiaddrs().map(ma => ma.toString()))
+  console.log('Peer Addresses:', libp2p.getMultiaddrs().map(ma => ma.toString()))
 
   // Add initial data
-  await db.put({ _id: 'first', content: 'Genesis entry' })
+  await db.put({ _id: 'doc1', message: 'Hello from creator!' })
+  console.log('Initial data:', await db.all())
 
-  // Listen for remote updates
-  db.events.on('update', (entry) => {
-    console.log('\nNew update from peer:', entry.payload.value)
-  })
-
-  // Keep alive for demo
+  // Keep the creator alive
   setInterval(() => {}, 1000)
 }
 
-createDatabase().catch(console.error)
+main().catch(console.error)
