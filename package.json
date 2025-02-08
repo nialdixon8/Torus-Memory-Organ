@@ -1,0 +1,20 @@
+{
+  "name": "organ",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module", 
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@chainsafe/libp2p-gossipsub": "^14.1.0",
+    "@libp2p/tcp": "^10.0.17",
+    "@orbitdb/core": "^2.4.3",
+    "blockstore-level": "^2.0.1",
+    "helia": "^5.2.0"
+  }
+}
