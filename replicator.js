@@ -5,44 +5,43 @@ import { LevelBlockstore } from 'blockstore-level'
 import { Libp2pOptions } from './config/libp2p.js'
 import { multiaddr } from '@multiformats/multiaddr'
 
-const replicateDatabase = async (dbAddress, creatorAddress) => {
-  const blockstore = new LevelBlockstore('./replicator-ipfs-blocks')
+const main = async (dbAddress, creatorAddress, storageDir) => {
+  // Persistent storage for replicator
+  const blockstore = new LevelBlockstore(`./${storageDir}/ipfs-blocks`)
   const libp2p = await createLibp2p(Libp2pOptions)
   const ipfs = await createHelia({ libp2p, blockstore })
 
-  const orbitdb = await createOrbitDB({
-    ipfs,
-    directory: './replicator-orbitdb-storage'
-  })
+  // Initialize OrbitDB with a unique directory
+  const orbitdb = await createOrbitDB({ ipfs, directory: `./${storageDir}/orbitdb` })
 
-  // Connect to creator first
+  // Connect to the creator
   await libp2p.dial(multiaddr(creatorAddress))
-  
-  // Open existing database
-  const db = await orbitdb.open(dbAddress)
 
-  console.log('=== REPLICATOR READY ===')
-  console.log('Current data:', await db.all())
+  // Open the shared database
+  const db = await orbitdb.open(dbAddress)
+  console.log('=== REPLICATOR ===')
+  console.log('Connected to database:', db.address.toString())
+  console.log('Initial data:', await db.all())
 
   // Listen for updates
   db.events.on('update', (entry) => {
-    console.log('\nNew update received:', entry.payload.value)
+    console.log('\nNew update:', entry.payload.value)
   })
 
-  // Simulate adding data later
+  // Add new data after a delay
   setTimeout(async () => {
-    await db.put({ _id: 'replica', content: 'From replicator' })
+    await db.put({ _id: 'doc2', message: 'Hello from replicator!' })
   }, 5000)
 
-  // Keep alive
+  // Keep the replicator alive
   setInterval(() => {}, 1000)
 }
 
-// Usage: node replicator.js <db-address> <creator-multiaddr>
-const [,, dbAddress, creatorAddress] = process.argv
-if (!dbAddress || !creatorAddress) {
-  console.error('Missing arguments: <db-address> <creator-multiaddr>')
+// Usage: node replicator.js <db-address> <creator-multiaddr> <storage-dir>
+const [,, dbAddress, creatorAddress, storageDir] = process.argv
+if (!dbAddress || !creatorAddress || !storageDir) {
+  console.error('Usage: node replicator.js <db-address> <creator-multiaddr> <storage-dir>')
   process.exit(1)
 }
 
-replicateDatabase(dbAddress, creatorAddress).catch(console.error)
+main(dbAddress, creatorAddress, storageDir).catch(console.error)

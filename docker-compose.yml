@@ -1,0 +1,37 @@
+version: '3.8'
+
+networks:
+  orbitdb:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+services:
+  bootstrap-node:
+    build: .
+    container_name: bootstrap-node-${NODE_ID}
+    networks:
+      orbitdb:
+        ipv4_address: 172.20.0.2
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./bootstrap-ipfs:/app/ipfs
+      - ./bootstrap-orbitdb:/app/orbitdb
+    command: node node.js
+
+  node:
+    build: .
+    networks:
+      orbitdb:
+    ports:
+      - "4001-4005:4001"
+    volumes:
+      - ./node-ipfs-${NODE_ID}:/app/ipfs
+      - ./node-orbitdb-${NODE_ID}:/app/orbitdb
+    environment:
+      - NODE_ID=${NODE_ID:-1}
+    command: node node.js
+    deploy:
+      replicas: 3 # Start with 3 nodes
