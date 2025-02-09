@@ -100,16 +100,6 @@ The **CLI** provides an **interactive way to manage and interact with the databa
 
 ---
 
-## Video Demonstration (Coming Soon!)
-
-A video demonstration showcasing the functionality and benefits of Nodulisk will be available here soon.  [Link to Video Demo - Placeholder]  *(Update this link once the video is ready)*
-
-## Dockerization (Future Development)
-
-Whole code is Dockerized
-
-## Contact
-
 ## License
 
 [License Information]
