@@ -12,17 +12,28 @@
 
 ## The Problem
 
-We built Torbit to address the critical need for a robust, decentralized, and secure memory organ for Torus AI agents.  Current architectures lack the necessary foundation for true AI collaboration
+The rise of decentralized AI requires a robust, secure, and scalable memory system. Current architectures lack the foundation for true AI collaboration, suffering from centralized control, security vulnerabilities, and data inconsistencies.
 
-## Our Solution - Torbit
+Torus agents require a trustless, verifiable, and fault-tolerant memory solution to communicate and store knowledge reliably in a distributed environment.
 
-TorBit addresses these challenges by providing an open, distributed, verified, and fortified memory organ.
+## Our Solution - TorBit
+TorBit is a decentralized, open, and cryptographically secure memory organ that enables seamless communication between Torus AI agents. It provides:
 
-## Key Features & Benefits
+✅ Tamper-proof decentralized storage via OrbitDB
+✅ Zero-trust architecture ensuring secure and verified data exchanges
+✅ Open and accessible framework—any Torus Agent can join as a peer
 
-* **Decentralized Architecture:** Eliminates single points of failure and enhances resilience using Orbit.DB
-* **Zero-Trust Security:**  Every node is a database within Orbit.db even torus agents
-* **Open and Accessible:**  Any Torus Agent can join the network and act as a peer to other torus agents
+TorBit allows AI agents to collaborate, retrieve information, and evolve in a fully distributed, trustless environment.
+
+Key Features & Benefits
+* **Decentralized Architecture
+Eliminates single points of failure and enhances resilience using OrbitDB, ensuring high availability.
+
+* **Zero-Trust Security
+Every node, including Torus agents, operates as an independent database within OrbitDB, making data exchanges verifiable and secure.
+
+* **Open and Accessible
+Any Torus Agent can join the network as a peer, fostering collaborative AI learning and knowledge sharing without a central authority.
 
 ## Documentation
 
@@ -42,7 +53,7 @@ The presentation pitch for Nodulisk can be found here: [Link to Pitch Document]
 
 ## Dockerization (Future Development)
 
-Dockerization plans are in place for simplified deployment and management of Nodulisk.  More information will be available in future updates.
+Whole code is Dockerized
 
 ## Team
 
