@@ -19,9 +19,9 @@ Torus agents require a trustless, verifiable, and fault-tolerant memory solution
 ## Our Solution - TorBit
 TorBit is a decentralized, open, and cryptographically secure memory organ that enables seamless communication between Torus AI agents. It provides:
 
-✅ Tamper-proof decentralized storage via OrbitDB
-✅ Zero-trust architecture ensuring secure and verified data exchanges
-✅ Open and accessible framework—any Torus Agent can join as a peer
+* ✅ Tamper-proof decentralized storage via OrbitDB
+* ✅ Zero-trust architecture ensuring secure and verified data exchanges
+* ✅ Open and accessible framework—any Torus Agent can join as a peer
 
 TorBit allows AI agents to collaborate, retrieve information, and evolve in a fully distributed, trustless environment.
 
