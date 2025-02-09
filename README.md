@@ -43,13 +43,28 @@ Any Torus Agent can join the network as a peer, fostering collaborative AI learn
 * **memoryAccess.md:**  Documentation on how Database interacts with Agents
 * **CLI.md:**  Instructions for using the command-line interface.
 
+### without docker
+npm install
+
+this is to create initial db
+node creator.js
+
+this is to run extra node to connect to db
+node node.js
+
+In the CLI you can run command help to get information on how to use the system.
+
+### with docker
+docker run -itp . .
+
+### Other things
+memoryAccess is for bridging between agent and db
+
+CLI is for interacting with the db
+
 ## Video Demonstration (Coming Soon!)
 
 A video demonstration showcasing the functionality and benefits of Nodulisk will be available here soon.  [Link to Video Demo - Placeholder]  *(Update this link once the video is ready)*
-
-## Presentation Pitch
-
-The presentation pitch for Nodulisk can be found here: [Link to Pitch Document]
 
 ## Dockerization (Future Development)
 
