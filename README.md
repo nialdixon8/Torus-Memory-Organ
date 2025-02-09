@@ -6,7 +6,7 @@
 
 | ![Sam Wakefield](https://media.licdn.com/dms/image/v2/D4E03AQG5vDxRgEyyqQ/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1705506826370?e=1744848000&v=beta&t=YaSLl-xnkzYMkOScqrAsSFK-xaTLWClurhq_Sk1Nr44) | ![Niall Dixon](https://media.licdn.com/dms/image/v2/D4E03AQE_QhInNVVHyg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1718220386492?e=1744848000&v=beta&t=xODXzWwO_3lZ08Vfmtjqu1_4-nj_GxwINJ3dfDCXoas) | ![Clyde Fernandes](https://media.licdn.com/dms/image/v2/D4D03AQGGAa80ajEWBg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1726071240858?e=1744848000&v=beta&t=tpLiHoCC2iL6utT5HOog-X4pfh6npLiEL2-0BRiSCIU) |
 |:---:|:---:|:---:|
-| **Sam Wakefield**  | **Niall Dixon** | **Clyde Fernandes** |
+| **Sam Wakefield**  | **Nial Dixon** | **Clyde Fernandes** |
 | Software Developer | Software Developer | Software Developer |
 
 
