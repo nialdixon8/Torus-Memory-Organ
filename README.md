@@ -37,30 +37,65 @@ Any Torus Agent can join the network as a peer, fostering collaborative AI learn
 
 ## Documentation
 
-* **README.md (This Document):** Overview of the project, problem, solution, and links to other documentation.
-* **Creator.md:** Details about the project creators and their contributions.
-* **node.md:**  Information about the Torbit node implementation.
-* **memoryAccess.md:**  Documentation on how Database interacts with Agents
-* **CLI.md:**  Instructions for using the command-line interface.
+This section provides details on the project's structure, setup, and usage.
 
-### without docker
-npm install
+### 📖 Available Documents
 
-this is to create initial db
-node creator.js
+- **README.md (This Document):** Overview of the project, problem, solution, and links to other documentation.
+- **Creator.md:** Details about the project creators and their contributions.
+- **node.md:** Information about the TorBit node implementation.
+- **memoryAccess.md:** Documentation on how the database interacts with agents.
+- **CLI.md:** Instructions for using the command-line interface.
 
-this is to run extra node to connect to db
-node node.js
+---
 
-In the CLI you can run command help to get information on how to use the system.
+## **Installation & Running the System**
 
-### with docker
+### 🔧 Running Without Docker
+
+1. **Install Dependencies**  
+   ```sh
+   npm install
+   ```
+
+2. **Create Initial Database**  
+   ```sh
+   node creator.js
+   ```
+   This command initializes the database.
+
+3. **Run an Extra Node to Connect to the Database**  
+   ```sh
+   node node.js
+   ```
+   This starts an additional node and connects it to the database.
+
+4. **Using the CLI**  
+   Inside the CLI, you can run the following command to get a list of available commands:  
+   ```sh
+   help
+   ```
+
+---
+
+### 🐳 Running With Docker
+
+To run the system using Docker, execute the following command:  
+```sh
 docker run -itp . .
+```
 
-### Other things
-memoryAccess is for bridging between agent and db
+---
 
-CLI is for interacting with the db
+## **Other Components**
+
+### 📂 **Memory Access (`memoryAccess.md`)**
+The **memoryAccess** module acts as a **bridge between AI agents and the database**, allowing seamless interaction and secure data exchange.
+
+### 💻 **Command-Line Interface (`CLI.md`)**
+The **CLI** provides an **interactive way to manage and interact with the database**.
+
+---
 
 ## Video Demonstration (Coming Soon!)
 
