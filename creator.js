@@ -37,7 +37,7 @@ const createDatabase = async () => {
     console.log('Node Joined: ', peerID)
   })
 
-  const cli = new CLI(db, libp2p);
+  const cli = new CLI(db, libp2p, orbitdb.identity);
   cli.start();
 }
 
