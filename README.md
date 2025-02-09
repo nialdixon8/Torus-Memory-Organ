@@ -55,16 +55,7 @@ The presentation pitch for Nodulisk can be found here: [Link to Pitch Document]
 
 Whole code is Dockerized
 
-## Team
-
-* [Your Name] - [Your Role] - [Your Social Media Links]
-* [Team Member 2 Name] - [Team Member 2 Role] - [Team Member 2 Social Media Links]
-* ...
-
 ## Contact
-
-[Your Email Address]
-[Project Repository Link (e.g., GitHub)]
 
 ## License
 
