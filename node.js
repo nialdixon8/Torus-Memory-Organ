@@ -1,19 +1,25 @@
 import { createLibp2p } from 'libp2p'
 import { createHelia } from 'helia'
-import { createOrbitDB } from '@orbitdb/core'
+import { createOrbitDB, Identities } from '@orbitdb/core'
 import { LevelBlockstore } from 'blockstore-level'
 import { Libp2pOptions } from './config/libp2p.js'
 import { multiaddr } from '@multiformats/multiaddr'
 import { CLI } from './CLI.js'
 
 const joinDatabase = async (dbAddress, creatorAddress) => {
-  const blockstore = new LevelBlockstore('./replicator-ipfs-blocks')
+  const timestamp = Date.now()
+  const blockstore = new LevelBlockstore(`./node-ipfs-blocks-${timestamp}`)
   const libp2p = await createLibp2p(Libp2pOptions)
   const ipfs = await createHelia({ libp2p, blockstore })
 
+  const id = `node-${timestamp}`
+  const identities = await Identities({ ipfs })
+  const identity = await identities.createIdentity({ id })
   const orbitdb = await createOrbitDB({
     ipfs,
-    directory: './replicator-orbitdb-storage'
+    directory: `./node-orbitdb-storage-${timestamp}`,
+    id: `node-${timestamp}`,
+    identities,
   })
 
   // Connect to creator first
@@ -23,13 +29,12 @@ const joinDatabase = async (dbAddress, creatorAddress) => {
   const db = await orbitdb.open(dbAddress)
 
   console.log('=== NODE READY ===')
-
   // Listen for updates
   db.events.on('update', (entry) => {
     console.log('\nNew update received:', entry.payload.value)
   })
 
-  const cli = new CLI(db, libp2p);
+  const cli = new CLI(db, libp2p, identity);
   cli.start();
 }
 
