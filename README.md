@@ -69,7 +69,7 @@ This section provides details on the project's structure, setup, and usage.
 
 3. **Run an Extra Node to Connect to the Database**  
    ```sh
-   node node.js
+   node node.js <database-address> <connection-string>
    ```
    This starts an additional node and connects it to the database.
 
