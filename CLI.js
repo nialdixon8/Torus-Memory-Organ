@@ -1,4 +1,5 @@
 import readline from 'readline'
+import fs from 'fs';
 
 // Define a CLI class to handle terminal commands
 export class CLI {
@@ -23,17 +24,29 @@ export class CLI {
       //---HELP---
       if (command === 'help') {
         this.help();
-      //---WRITE---
-      } else if (command.startsWith('write ')) {
-        // Extract the text after "write "
-        const text = command.slice(6);
+      //---CREATE---
+      } else if (command.startsWith('create ')) {
+        const filePath = command.slice(7).trim();
+        if (!filePath) {
+          console.error('Error: No file path provided. Usage: create <path-to-json-file>');
+          return;
+        }
         try {
-          // Use a timestamp as a unique _id; you could also provide your own ID if desired.
-          const entry = { _id: new Date().toISOString(), content: text };
-          await this.db.put(entry);
-          console.log(`Wrote entry: ${text}`);
+          const data = await fs.promises.readFile(filePath, 'utf8');
+
+          const jsonData = JSON.parse(data)
+          for await (const line of jsonData) {
+            try {
+              const entry = { _id: new Date().toISOString(), ...line };
+              await this.db.put(entry);
+            } catch (err) {
+              console.error('Error parsing or uploading line:', err);
+            }
+          }
+      
+          console.log(`Uploaded file: ${filePath}`);
         } catch (err) {
-          console.error('Error writing entry:', err);
+          console.error('Error reading file:', err);
         }
       //---CAPABILITIES---
       } else if (command === 'capabilities') {
@@ -75,10 +88,41 @@ export class CLI {
             console.error('Error revoking access:', err);
           }
         }
-      //---FETCH---
-      } else if (command === 'fetch') {
+      //---LIST---
+      } else if (command === 'list') {
         const data = await this.db.all()
-        console.log('Data:\n', data)
+        console.log('Data:\n', data.map(d=>d.value))
+      //---FETCH---
+      } else if (command.startsWith('fetch ')) {
+        const id = command.slice(6).trim()
+        const doc = await this.db.get(id)
+        console.log(JSON.stringify(doc.value, null, 2))
+      //---QUERY---
+      } else if (command.startsWith('query ')) {
+        const parts = command.split(' ');
+        if (parts.length < 3) {
+          console.log('Usage: query <field> <value>');
+        }
+        const field = parts[1];
+        let value = parts[2];
+
+        if (!isNaN(Number(value))) {
+            value = Number(value);
+        }
+
+        const query = { [field]: value };
+        const results = await this.db.query(doc => {
+            return Object.entries(query).every(([key, value]) => {
+                return this.deepCompare(doc[key], value)
+            })
+        })
+        console.log(`Found ${results.length} documents:`)
+        results.forEach(doc => console.log(JSON.stringify(doc, null, 2)))
+      //---DELETE---
+      } else if (command.startsWith('delete ')) {
+        const id = line.slice(7).trim()
+        await this.db.del(id)
+        console.log(`Deleted document: ${id}`)
       //---ID---
       } else if (command === 'id') {
         console.log('ID:\n', this.identity.id)
@@ -97,7 +141,7 @@ export class CLI {
         console.log('node node.js', this.db.address.toString(), this.libp2p.getMultiaddrs().map(ma => ma.toString())[0])
       }
       else {
-        console.log(`Unknown command: ${command}`);
+        console.log(`Unknown command: ${command}. Use command 'help' to see valid commands`);
       }
       this.rl.prompt();
     }).on('close', () => {
@@ -112,14 +156,23 @@ export class CLI {
     - grant <permission> <identity>  : Grant write access to the specified identity.
     - revoke <permission> <identity> : Revoke write access from the specified identity.
     Write:
-    - write <your message>    : Add a new entry to the database.
+    - create <path-to-json>   : Upload JSON data to database.
+    - delete <id>             : Delete row from database.
     Read:
+    - query <field> <value>   : Fetches documents where field = value.
+    - fetch <id>              : Fetches specific document.
     - capabilities            : Show the database capabilities.
-    - fetch                   : Retrieve all entries from the database.
+    - list                    : List all entries from the database.
     - info                    : Display the database address and network addresses.
+    - id                      : Display this node's public key.
     - con                     : Print the connection string.
     - help                    : Display this help message.
     - exit                    : Exit the CLI.
     `);
   }
+  deepCompare(a, b) {
+    if (typeof a !== typeof b) return false
+    if (typeof a !== 'object') return a === b
+    return JSON.stringify(a) === JSON.stringify(b)
+    }
 }
