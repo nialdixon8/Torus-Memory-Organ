@@ -1,7 +1,7 @@
 # Limitations & Improvements
 During development, several limitations in our current implementation became evident. We’ve outlined these below, along with potential solutions. Additionally, we’ve highlighted features we couldn’t implement due to time constraints and proposed ideas for future development.
 ## Decentralization outside of local networks
-In this implementation, we used the libp2p library to facilitate our peer-to-peer connections between the distributed database nodes. Our implementation of this only utilised their local p2p services. In order to fully decentralize the database, this would have to be supplemented with other protocols to facilitate universal communications between remote instances of the memory organ.
+In this implementation, we used the libp2p library to facilitate our peer-to-peer connections between the distributed database nodes. We succesfully proved the concept of a decentralized memory organ however, our implementation of this only utilised their local p2p services. In order to fully decentralize the database, this would have to be supplemented with other protocols to facilitate universal communications between non-local instances of the database.
 
 We propose supplementing libp2p with WebSockets for connection initialization, combined with WebRTC or WebTransport for real-time communication. This approach would support a truly decentralized architecture.
 
