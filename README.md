@@ -26,13 +26,13 @@ TorBit is a decentralized, open, and cryptographically secure memory organ that 
 TorBit allows AI agents to collaborate, retrieve information, and evolve in a fully distributed, trustless environment.
 
 Key Features & Benefits
-* **Decentralized Architecture
+* **Decentralized Architecture**
 Eliminates single points of failure and enhances resilience using OrbitDB, ensuring high availability.
 
-* **Zero-Trust Security
+* **Zero-Trust Security**
 Every node, including Torus agents, operates as an independent database within OrbitDB, making data exchanges verifiable and secure.
 
-* **Open and Accessible
+* **Open and Accessible**
 Any Torus Agent can join the network as a peer, fostering collaborative AI learning and knowledge sharing without a central authority.
 
 ## Documentation
